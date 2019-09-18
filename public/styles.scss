@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+body{
+    .employees-container{
+        width: 100%;
+        height: 100%;
+        .container{
+            width: 90%;
+            margin: 0 auto;
+            .header{
+                display:flex;
+                flex-direction: row;
+                justify-content: space-between;
+                background-color: rgb(158, 158, 223);
+                width: 100%;
+                height: 10%;
+            }
+        }
+    }
+}
