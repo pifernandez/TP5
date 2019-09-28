@@ -11,7 +11,6 @@ router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../pages/index.html'))
 })
 
-router.get('/api/employees', employees)
 router.get('/api/employees', employees.getEmp);
 router.get('/api/employees/:id', employees.getEmpByid);
 router.post('/api/employees', employees.postEmp);
