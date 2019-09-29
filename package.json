@@ -18,14 +18,8 @@
   "homepage": "https://github.com/pifernandez/TP5#readme",
   "dependencies": {
     "body-parser": "1.19.0",
-<<<<<<< HEAD
     "cors": "2.8.5",
-    "express": "4.17.1",
-    "morgan": "1.9.1"
-=======
-		"cors": "2.8.5",
     "express": "^4.17.1",
     "morgan": "^1.9.1"
->>>>>>> fc6e695ec7c8794947e004622850463d399ed11c
   }
 }
