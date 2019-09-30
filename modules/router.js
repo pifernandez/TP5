@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
 //API ROUTES
 router.get('/api/employees', employees.getEmp)
 router.get('/api/employees/:id', employees.getEmpById);
+router.delete('/api/employees/:id', employees.deleteEmp);
 router.patch('api/employees', employees.patchEmp)
 router.post('/api/employees', employees.postEmp);
 

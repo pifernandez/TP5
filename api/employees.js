@@ -3,13 +3,15 @@ const employees = [{
 	lastName: 'Lovelace',
 	address: 'calle 123',
     phone: '1234567890',
-    email: 'contacto@gmail.com'
+	email: 'contacto@gmail.com',
+	id: 1
   }, {
     name: 'Grace',
 	lastName: 'Hopper',
 	address: 'calle 456',
     phone: '087654321',
-    email: 'contacto@hotmail.com'
+	email: 'contacto@hotmail.com',
+	id: 2
   }]
 
 const getEmp = (req, res, next) => {
@@ -27,8 +29,8 @@ const patchEmp = (req, res, next) => {
 
 	if (resEmp) {
 		let editedEmp = { ...resEmp, ...data };
-		user.splice(1, index);
-		user.push(editedEmp);
+		employees.splice(1, index);
+		employees.push(editedEmp);
 	} else {
 		res.status(404).send('no encontramos al empleado');
 	}
@@ -36,15 +38,26 @@ const patchEmp = (req, res, next) => {
 
 const postEmp = (req, res, next) => {
 	let data = req.body;
-	if (data.hasOwnProperty('name') && data.hasOwnProperty('email')) {
-		data.id = users.length + 1; // para el tp, pongamos una generación de ID mas segura.
-		employees.push(data);
-		res.status('201').json(`recibido con el id ${data.id}`);
-	} else {
-		res.status('400').json('fijate que pusiste mal los datos, ameo.');
-	}
+	data.id = employees.length + 1;
+	employees.push(data);
+	res.status('201').json(`empleado recibido con el id ${data.id}`);
 	next();
 };
+
+const deleteEmp = (req, res, next) => {
+	let data = req.body;
+	let index = '';
+	let resEmp = employees.find((e, i) => {
+		index = i;
+		return e.id === req.params.id;
+	});
+
+	if (resEmp) {
+		employees.splice(1, index);
+	} else {
+		res.status(404).send(`se elimino al empleado con el id ${data.id}`);
+	}
+}
 
 const getEmpByid = (req, res, next) => {
 	let resEmp = employees.find((e) => e.id === req.params.id);
@@ -55,4 +68,4 @@ const getEmpByid = (req, res, next) => {
 	}
 };
 
-module.exports = { getEmp, getEmpByid, patchEmp, postEmp };
+module.exports = { getEmp, getEmpByid, patchEmp, postEmp, deleteEmp };
