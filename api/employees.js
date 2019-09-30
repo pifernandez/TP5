@@ -1,18 +1,4 @@
-const employees = [{
-    name: 'Ada',
-	lastName: 'Lovelace',
-	address: 'calle 123',
-    phone: '1234567890',
-	email: 'contacto@gmail.com',
-	id: 1
-  }, {
-    name: 'Grace',
-	lastName: 'Hopper',
-	address: 'calle 456',
-    phone: '087654321',
-	email: 'contacto@hotmail.com',
-	id: 2
-  }]
+const employees = []
 
 const getEmp = (req, res, next) => {
 	res.json({ employees });
@@ -45,24 +31,15 @@ const postEmp = (req, res, next) => {
 };
 
 const deleteEmp = (req, res, next) => {
-	/*let data = req.body;
-	let index = '';
-	let resEmp = employees.find((e, i) => {
-		index = i;
-		return e.id === req.params.id;
-	});
-
-	if (resEmp) {
-		employees.splice(1, index);
-	} else {
-		res.status(404).send(`se elimino al empleado con el id ${data.id}`);
+	let emp = employees.find(e => e.id === req.params.id)
+	let index = employees.findIndex(e => e.id === req.params.id)
+	if(emp){
+		employees.splice(index, 1);
+		res.status('200').json(`se elimino al empleado con el id ${index}`);
+	}else{
+		res.status('400').send(`No se pudo eliminar el empleado con el id ${index}`)
 	}
-	next()*/
-	let employee = employees.find(e=>e.id === req.params.id)
-    let index = employees.findIndex(e=>e.id === req.params.id)
-    employees.splice(index, 1)
-    res.json(`Se elimino el empleado con id ${req.params.id}`)
-    next()
+	next()
 }
 
 const getEmpByid = (req, res, next) => {
@@ -70,7 +47,7 @@ const getEmpByid = (req, res, next) => {
 	if (resEmp) {
 		res.json(resEmp);
 	} else {
-		res.status(404).send('no encontramos al empleado');
+		res.status(404).send('No encontramos al empleado');
 	}
 };
 
