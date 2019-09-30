@@ -45,7 +45,7 @@ const postEmp = (req, res, next) => {
 };
 
 const deleteEmp = (req, res, next) => {
-	let data = req.body;
+	/*let data = req.body;
 	let index = '';
 	let resEmp = employees.find((e, i) => {
 		index = i;
@@ -57,6 +57,12 @@ const deleteEmp = (req, res, next) => {
 	} else {
 		res.status(404).send(`se elimino al empleado con el id ${data.id}`);
 	}
+	next()*/
+	let employee = employees.find(e=>e.id === req.params.id)
+    let index = employees.findIndex(e=>e.id === req.params.id)
+    employees.splice(index, 1)
+    res.json(`Se elimino el empleado con id ${req.params.id}`)
+    next()
 }
 
 const getEmpByid = (req, res, next) => {

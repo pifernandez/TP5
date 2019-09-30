@@ -18,15 +18,22 @@ const printEmp = (data) => {
             li.innerText = i
             ul.appendChild(li)
         })
-        let btn = document.createElement('button')
-        btn.innerText = 'delete'
-        btn.id = e.id
-        // btn.onclick = deleteEmp(btn.id)
-        ul.appendChild(btn)
+        let deleteBtn = document.createElement('button')
+        let editBtn = document.createElement('button')
+        deleteBtn.innerText = 'delete'
+        deleteBtn.id = e.id
+        console.log(deleteBtn)
+        deleteBtn.onclick = () => deleteEmp(deleteBtn.id)
+        editBtn.innerText = 'edit'
+        editBtn.id = e.id
+        editBtn.onclick = () => patchEmp(editBtn.id)
+        ul.appendChild(editBtn)
+        ul.appendChild(deleteBtn)
     })
 }
 
-const createPayload = () => {
+const createEmp = () => {
+    event.preventDefault()
     let name = document.getElementById('name')
     let lastName = document.getElementById('last-name')
     let address = document.getElementById('address')
@@ -37,14 +44,8 @@ const createPayload = () => {
         lastName: lastName.value,
         address: address.value,
         phone: phone.value,
-        email: email.value
+        email: email.value,
     }
-    return payload
-}
-
-const createEmp = () => {
-    event.preventDefault()
-    let payload = createPayload()
 
     if(validateForm(payload)){
         fetch('api/employees',{
@@ -66,25 +67,29 @@ const createEmp = () => {
             })
             .catch(err => console.log(err))    
     }else{
-        console.log('llena todos los campos')
+        alert('llena todos los campos')
     }
 }
 
 
-const deleteEmp = (id) =>{
-    //incompleto
-    fetch(`/api/employees/${id}`, {
-        method: 'DELETE',
-        headers: {'Content-Type': 'application/json'},
+const deleteEmp = (idEmp) =>{
+    console.log(idEmp)
+    // alert('?')
+    
+    fetch(`/api/employees/${idEmp}`, {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'}
     })
         .then(res=>res.json())
         .then(res=>{
             console.log(res)
-            // initialize()
+            initialize()
         })
 }            
 
-const patchEmp = (id, payload) => {
+const patchEmp = (id) => {
+    console.log(id)
+    
 	fetch(`api/users/${id}`, {
 		method: 'PATCH',
 		headers: {
@@ -94,11 +99,13 @@ const patchEmp = (id, payload) => {
 	})
 		.then((res) => res.json())
 		.then((res) => {
+            console.log(res)
+            /*
             payload.name.value = ''
             payload.lastName.value = ''
             payload.address.value = ''
             payload.phone.value = ''
-            payload.email.value = ''
+            payload.email.value = ''*/
             initialize()
 		})
         .catch(err => console.log(err))
@@ -107,7 +114,9 @@ const patchEmp = (id, payload) => {
 
 const validateForm = ({ name, lastName, phone, address, email }) => {
     let isValid = false
-    if(name !== '' && lastName !== '' && phone !== '' && address !== '' && email !== ''){
+    let remail = /\S+@\S+\.\S+/
+    let rphone = re = /^\+?([0-9]{3})\)?[ ]?([0-9]{3})[ ]?([0-9]{3})[ ]?([0-9]{3})$/
+    if(name !== '' && lastName !== '' && phone !== '' && rphone.test(phone) && address !== '' && email !== '' && remail.test(email)){
         isValid = true
     }else{
         isValid = false
@@ -120,4 +129,8 @@ let value = document.getelementbyid('filterinput')
 let filterinput = data.filter(resource => 
     objetc.keys(resource).find(prop=>resource[prop].includes(valueinput))
 )
+
 */
+
+//https://github.com/mcassiraga/tp5ShirleyMar/blob/master/public/scripts/employees.js
+//https://github.com/MalenaLucero/tp5DaianaMalena/blob/master/public/main.js

@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const router = require('./modules/router')
 
 const server = express()
-const port = 3000
+const port = 4002
 
 server.use(
 	bodyParser.urlencoded({
