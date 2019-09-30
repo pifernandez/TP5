@@ -43,8 +43,12 @@ body{
                 .menuInput{
                     border-bottom:2px solid rgb(210, 210, 218);
 
-                }              
-                
+                }          
+            }
+            .inputDiv{
+                display:flex;
+                float:right;
+                padding:10px;
             }
         }
 
@@ -53,7 +57,7 @@ body{
             list-style: none;
             display: inline-flex;
             margin: 15px;
-            width: 130px;            
+            width: 130px;
         }
     }
     }

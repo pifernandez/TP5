@@ -42,6 +42,11 @@ body .employees-container .container .infoInput {
 body .employees-container .container .infoInput .menuInput {
   border-bottom: 2px solid #d2d2da;
 }
+body .employees-container .container .inputDiv {
+  display: flex;
+  float: right;
+  padding: 10px;
+}
 body .employees-container ul li {
   list-style: none;
   display: inline-flex;
