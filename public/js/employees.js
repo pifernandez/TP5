@@ -67,14 +67,14 @@ const createEmp = () => {
             })
             .catch(err => console.log(err))    
     }else{
-        alert('llena todos los campos')
+        alert('Por favor revisá los datos ingresados.')
     }
 }
 
 
 const deleteEmp = (idEmp) =>{
     console.log(idEmp)
-    // alert('?')
+    confirm('¿Estás segura de querer eliminar un empleado?')
     
     fetch(`/api/employees/${idEmp}`, {
       method: 'DELETE',
@@ -132,5 +132,3 @@ let filterinput = data.filter(resource =>
 
 */
 
-//https://github.com/mcassiraga/tp5ShirleyMar/blob/master/public/scripts/employees.js
-//https://github.com/MalenaLucero/tp5DaianaMalena/blob/master/public/main.js
