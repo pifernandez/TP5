@@ -18,14 +18,14 @@ const printEmp = (data) => {
             li.innerText = i
             ul.appendChild(li)
         })
-        container.innerHTML += createBtn(e.id)
+        ul.innerHTML += createBtn(e.id)
     })
 }
 
 const createBtn = (id) => `
     <li>
-        <a href="" onclick="patchEmp(id)" id="${id}" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="material-icons">create</i></a>
-        <a href="" onclick="deleteEmp(id)" id="${id}"><i class="material-icons">delete</i></a>
+        <a href="" id="${id}" onclick="patchEmp(id)"data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="material-icons actions">create</i></a>
+        <a href="" onclick="deleteEmp(id)" id="${id}"><i class="material-icons actions">delete</i></a>
     </li>
 `
 
@@ -85,41 +85,46 @@ const deleteEmp = (id) =>{
     }
 }            
 
-const patchEmp = async (id) => {
-    console.log(id)
-    let btn = document.getElementById(id)
-    let empData = await getEmp()
-    console.log(empData.employees.find(e => {
-        e.id == id
-    }))
-    /*
-	fetch(`api/users/${id}`, {
-		method: 'PATCH',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(payload)
-	})
-		.then((res) => res.json())
-		.then((res) => {
-            console.log(res)
-            
-            payload.name.value = ''
-            payload.lastName.value = ''
-            payload.address.value = ''
-            payload.phone.value = ''
-            payload.email.value = ''
-            //initialize()
-		})
-        .catch(err => console.log(err))*/
+const fillModal = (data) => {
+    let name = document.getElementById('name')
+    let lastName = document.getElementById('last-name')
+    let address = document.getElementById('address')
+    let phone = document.getElementById('phone')
+    let email = document.getElementById('email')
+    name.value = data.name
+    lastName.value = data.lastName
+    address.value = data.address
+    phone.value = data.phone
+    email.value = data.email
+}
+
+const patchEmp = (index) => {
+    let emp = empData.employees.find(e => {
+        return e.id === index
+    })
+    fillModal(emp)
+    if(validateForm(emp)){
+        fetch(`api/employees/${index}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(emp)
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res)
+                initialize()
+            })
+            .catch(err => console.log(err))
+    }
 };
 
 
 const validateForm = ({ name, lastName, phone, address, email }) => {
     let isValid = false
-    //let remail = /\S+@\S+\.\S+/
-    //let rphone = re = /^\+?([0-9]{3})\)?[ ]?([0-9]{3})[ ]?([0-9]{3})[ ]?([0-9]{3})$/
-    if(name !== '' && lastName !== '' && phone !== '' && address !== '' && email !== ''){
+    let remail = /\S+@\S+\.\S+/
+    if(name !== '' && lastName !== '' && phone !== '' && address !== '' && email !== ''&& remail.test(email)){
         isValid = true
     }else{
         isValid = false
@@ -128,8 +133,7 @@ const validateForm = ({ name, lastName, phone, address, email }) => {
 }
 
 /*
-remail.test(email)
-rphone.test(phone)
+
 let value = document.getelementbyid('filterinput')
 let filterinput = data.filter(resource => 
     objetc.keys(resource).find(prop=>resource[prop].includes(valueinput))
