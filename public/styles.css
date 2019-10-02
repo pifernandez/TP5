@@ -54,10 +54,11 @@ body .employees-container .container .infoInput .menuInput {
 body .employees-container .container .infoInput ul {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
 }
 body .employees-container .container .infoInput ul li {
   list-style: none;
+  width: 20%;
+  text-align: center;
 }
 body .employees-container .container .infoInput ul li a {
   text-decoration: none;
@@ -74,7 +75,7 @@ body .employees-container .container .inputDiv {
 }
 body .employees-container .container .inputDiv input {
   padding: 5px 10px;
-  margin: 10px 15px;
+  margin: 10px 50px;
   width: 35%;
   border-radius: 5px;
 }

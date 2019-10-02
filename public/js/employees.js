@@ -11,23 +11,29 @@ const printEmp = (data) => {
     const container = document.getElementById('emp-table')
     container.innerHTML = ''
     data.forEach(e => {
-        let ul = document.createElement('ul')
-        container.appendChild(ul)
-        Object.values(e).forEach(i => {
-            let li = document.createElement('li')
-            li.innerText = i
-            ul.appendChild(li)
-        })
-        ul.innerHTML += createBtn(e.id)
+        container.innerHTML += createUl(e)
     })
 }
 
-const createBtn = (id) => `
-    <li>
-        <a href="" id="${id}" onclick="patchEmp(id)"data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="material-icons actions">create</i></a>
-        <a href="" onclick="deleteEmp(id)" id="${id}"><i class="material-icons actions">delete</i></a>
-    </li>
+const createUl = ({ name, lastName, address, email, phone, id}) => `
+    <ul class="employee">
+        <li>${name}&nbsp;${lastName}</li>
+        <li>${address}</li>
+        <li>${email}</li>
+        <li>${phone}</li>
+        <li>
+            <a href="" id="${id}" onclick="openEditModal(id)"data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="material-icons actions">create</i></a>
+            <a href="" onclick="deleteEmp(id)" id="${id}"><i class="material-icons actions">delete</i></a>
+        </li>
+    </ul>
 `
+const cleanForm = () => {
+    document.getElementById('name').innerHTML = ''
+    document.getElementById('last-name').innerHTML = ''
+    document.getElementById('address').innerHTML = ''
+    document.getElementById('phone').innerHTML = ''
+    document.getElementById('email').innerHTML = ''
+}
 
 const createEmp = () => {
     event.preventDefault()
@@ -54,13 +60,13 @@ const createEmp = () => {
         })
             .then(res => res.json())
             .then(res => {
-                console.log(res)
                 payload.name.value = ''
                 payload.lastName.value = ''
                 payload.address.value = ''
                 payload.phone.value = ''
                 payload.email.value = ''
                 initialize()
+                cleanForm()
             })
             .catch(err => console.log(err))    
     }else{
@@ -71,7 +77,6 @@ const createEmp = () => {
 
 const deleteEmp = (id) =>{
     event.preventDefault()
-    console.log(id)
     if(confirm('¿Estás segura de querer eliminar un empleado?')){
         fetch(`/api/employees/${id}`, {
             method: 'DELETE',
@@ -98,17 +103,21 @@ const fillModal = (data) => {
     email.value = data.email
 }
 
-const patchEmp = (index) => {
+const openEditModal = index => {
     let emp = empData.employees.find(e => {
         return e.id === index
     })
     fillModal(emp)
+    let editBtn = document.getElementById('edit-emp')
+    editBtn.onclick = () => patchEmp(index, emp)
+}
+
+const patchEmp = (index, emp) => {
+    event.preventDefault()
     if(validateForm(emp)){
         fetch(`api/employees/${index}`, {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(emp)
         })
             .then((res) => res.json())
@@ -118,8 +127,7 @@ const patchEmp = (index) => {
             })
             .catch(err => console.log(err))
     }
-};
-
+}
 
 const validateForm = ({ name, lastName, phone, address, email }) => {
     let isValid = false
@@ -132,12 +140,17 @@ const validateForm = ({ name, lastName, phone, address, email }) => {
     return isValid
 }
 
-/*
+const filterEmp = () => {
+    let input = document.getElementById('filter')
+    input.innerHTML = ''
+    let value = input.value
+    let newData = empData.employees.filter(e => 
+        Object.keys(e).find(prop => e[prop].includes(value))
+    )
+    printEmp(newData)
+}
 
-let value = document.getelementbyid('filterinput')
-let filterinput = data.filter(resource => 
-    objetc.keys(resource).find(prop=>resource[prop].includes(valueinput))
-)
-
-*/
+const keyPress=function(event){
+    event.code === 'Enter' ? filterEmp() : false
+}
 

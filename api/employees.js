@@ -28,13 +28,6 @@ const patchEmp = (req, res, next) => {
 	next()
 }
 
-// const filterEmp = (req, res, next) => {
-// 	let emp = employees.filter(e => Object.keys(e).find(prop => e[prop].includes(req.params.query)))
-// 	if (emp.length !== 0) {
-// 		res.json({emp})
-// 	next()
-// }
-
 const postEmp = (req, res, next) => {
 	let data = req.body;
 	data.id = `u34j3${employees.length + 1}5bh84`;
